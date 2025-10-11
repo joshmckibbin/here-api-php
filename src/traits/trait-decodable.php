@@ -5,7 +5,7 @@
  * @package HereApi
  */
 
-namespace joshmckibbin\HereApi;
+namespace JMckibbin\HereApi;
 
 use Exception;
 

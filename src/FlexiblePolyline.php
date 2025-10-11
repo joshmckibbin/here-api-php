@@ -5,7 +5,7 @@
  * @package HereApi
  */
 
-namespace joshmckibbin\HereApi;
+namespace JMckibbin\HereApi;
 
 require_once __DIR__ . '/traits/trait-decodable.php';
 require_once __DIR__ . '/traits/trait-encodable.php';

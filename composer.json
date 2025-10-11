@@ -20,7 +20,7 @@
     },
 	"autoload": {
 		"psr-4": {
-			"HereApi\\": "src/"
+			"JMckibbin\\HereApi\\": "src/"
 		}
 	}
 }

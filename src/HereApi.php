@@ -11,7 +11,7 @@
  * @link       https://github.com/joshmckibbin/here-api-php
  */
 
-namespace joshmckibbin\HereApi;
+namespace JMckibbin\HereApi;
 
 /**
  * HERE API Class
