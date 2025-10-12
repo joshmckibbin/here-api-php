@@ -14,33 +14,36 @@ Install via [Composer](https://getcomposer.org/):
 
 1. Create a `composer.json` file in your project root if you don't have one:
 
-```bash
-composer init
-```
+	```bash
+	composer init
+	```
 
 2. Add the HERE API PHP client as a dependency:
 
-```json
-{
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "https://github.com/joshmckibbin/here-api-php.git"
+	```json
+	{
+		"repositories": [
+			{
+				"type": "vcs",
+				"url": "https://github.com/joshmckibbin/here-api-php.git"
+			}
+		],
+		"require": {
+			"joshmckibbin/here-api-php": "^1.0"
 		}
-	],
-	"require": {
-		"joshmckibbin/here-api-php": "^1.0"
 	}
-}
-```
+	```
 
 ## Usage
 
 ```php
-require 'vendor/autoload.php';
+// Include the Composer autoloader
+// somewhere outside of your web root
+require './path/to/vendor/autoload.php';
 
 use JMckibbin\HereApi\HereApi;
 
+// Initialize the client with your API key and coordinates
 $client = new HereApi('YOUR_API_KEY','YOUR_COORDINATES');
 
 // Example: Get traffic flow data for your coordinates
