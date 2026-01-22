@@ -7,8 +7,11 @@
 
 namespace JMckibbin\HereApi;
 
-require_once __DIR__ . '/traits/trait-decodable.php';
-require_once __DIR__ . '/traits/trait-encodable.php';
+use JMckibbin\HereApi\Traits\Decodable;
+use JMckibbin\HereApi\Traits\Encodable;
+
+require_once __DIR__ . '/Traits/trait-decodable.php';
+require_once __DIR__ . '/Traits/trait-encodable.php';
 
 class FlexiblePolyline {
 

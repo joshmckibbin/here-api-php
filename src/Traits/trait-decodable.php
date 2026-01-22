@@ -5,7 +5,7 @@
  * @package HereApi
  */
 
-namespace JMckibbin\HereApi;
+namespace JMckibbin\HereApi\Traits;
 
 use Exception;
 

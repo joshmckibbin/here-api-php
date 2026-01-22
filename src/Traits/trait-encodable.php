@@ -5,7 +5,7 @@
  * @package HereApi
  */
 
-namespace JMckibbin\HereApi;
+namespace JMckibbin\HereApi\Traits;
 
 use Exception;
 
@@ -13,8 +13,8 @@ trait Encodable {
     
     public static function encode(
         array $coordinates,
-        int $precision = null,
-        int $thirdDim = null,
+        ?int $precision = null,
+        ?int $thirdDim = null,
         int $thirdDimPrecision = 0
     ): string {
         if (is_null($precision)) {
