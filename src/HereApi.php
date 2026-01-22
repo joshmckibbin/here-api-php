@@ -27,8 +27,8 @@ namespace JMckibbin\HereApi;
  */
 class HereApi {
 
-    const TRAFFIC_SERVER = 'https://data.traffic.hereapi.com/v7';
-    const MAP_SERVER     = 'https://image.maps.hereapi.com/mia/v3';
+    const TRAFFIC_API_URL = 'https://data.traffic.hereapi.com/v7';
+    const MAP_API_URL     = 'https://image.maps.hereapi.com/mia/v3';
 
     private static $_apikey;
     public $polyline = null;
@@ -50,7 +50,7 @@ class HereApi {
         self::$_apikey = $api_key;
 
         if ( ! empty( $coords) ) {
-            $this->polyline = self::polyline($coords);
+            $this->polyline = self::encode_polyline($coords);
         }
     }
 
@@ -64,7 +64,7 @@ class HereApi {
      * 
      * @return string The encoded polyline
      */
-    public function polyline(array $coords, int $precision = 6): string {
+    public static function encode_polyline(array $coords, int $precision = 6): string {
         return FlexiblePolyline::encode($coords, $precision, 0);
     }
 
@@ -76,7 +76,7 @@ class HereApi {
      * 
      * @return array The decoded polyline as an array of coordinates
      */
-    public function decode_polyline(string $polyline): array {
+    public static function decode_polyline(string $polyline): array {
         $data = FlexiblePolyline::decode($polyline);
 
         return $data['polyline'];
@@ -91,7 +91,7 @@ class HereApi {
      * @return string The coordinate string as CSV
      */
     public function csv_coords(string $polyline): string {
-        $coords = $this->decode_polyline($polyline);
+        $coords = self::decode_polyline($polyline);
         $str = '';
         foreach ($coords as $coord) {
             $str .= implode(',', $coord) . ',';
@@ -165,7 +165,7 @@ class HereApi {
             'minJamFactor' => $minJamFactor
         );
 
-        return $this->request(self::TRAFFIC_SERVER . '/flow', $params);
+        return $this->request(self::TRAFFIC_API_URL . '/flow', $params);
     }
 
 
@@ -186,7 +186,7 @@ class HereApi {
             'type' => $type
         );
 
-        return $this->request(self::TRAFFIC_SERVER . '/incidents', $params);
+        return $this->request(self::TRAFFIC_API_URL . '/incidents', $params);
     }
 
     /**
@@ -196,7 +196,7 @@ class HereApi {
      * 
      * @return bool True if valid, false otherwise
      */
-    public function validate_map_format(string $format): bool {
+    private static function validate_map_format(string $format): bool {
         $valid_formats = ['png', 'jpeg', 'png8'];
         return in_array( $format, $valid_formats, true );
     }
@@ -213,13 +213,13 @@ class HereApi {
      * @return string The URL of the map image
      */
     public function get_map( string $polyline, string $format = 'png', int $width = 1200, int $height = 1200 ): string {
-        if ( ! $this->validate_map_format($format) ) {
+        if ( ! self::validate_map_format($format) ) {
             throw new \Exception('Invalid map format: ' . $format);
         }
 
         $dimensions = $width . 'x' . $height;
 
-        $request_url = self::MAP_SERVER
+        $request_url = self::MAP_API_URL
             . '/base/mc/overlay:padding=32/'
             . $dimensions
             . '/'
@@ -273,7 +273,7 @@ class HereApi {
             throw new \Exception( 'The image path is not writable: ' . $path );
         }
 
-        if ( ! $this->validate_map_format($format) ) {
+        if ( ! self::validate_map_format( $format ) ) {
             throw new \Exception( 'Invalid map format: ' . $format );
         }
 
@@ -287,7 +287,7 @@ class HereApi {
             $c[$key][] = [$p['lat'], $p['lng']];
         }
 
-        $polyline = $this->polyline( $c[$key] );
+        $polyline = self::encode_polyline( $c[$key] );
         $ext = $this->get_map_extension( $format );
         $image = $path . '/' . 'map-' . hash( 'md5', $polyline ) . '.' . $ext;
 
