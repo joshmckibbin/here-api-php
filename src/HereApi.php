@@ -178,7 +178,7 @@ class HereApi {
      * 
      * @return array The traffic incidents data
      */
-    public function incidents(int $radius = 50, string $type = null) : array {
+    public function incidents(int $radius = 50, ?string $type = null) : array {
 
         $params = array(
             'in' => sprintf('corridor:%s;r=%d', $this->polyline, $radius),
